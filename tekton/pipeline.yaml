@@ -1,1 +1,29 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: build-and-push-poc
+  namespace: poc-tekton
+spec:
+  params:
+    - name: IMAGE_NAME
+      description: Full image name (Quay)
+      default: quay.io/myorg/poc-tekton
+    - name: IMAGE_TAG
+      description: Image tag
+      default: v1.0.0
 
+  workspaces:
+    - name: shared-workspace
+
+  tasks:
+    - name: build-and-push
+      taskRef:
+        name: buildah
+      params:
+        - name: IMAGE
+          value: $(params.IMAGE_NAME):$(params.IMAGE_TAG)
+        - name: TLSVERIFY
+          value: "false"
+      workspaces:
+        - name: source
+          workspace: shared-workspace
