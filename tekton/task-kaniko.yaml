@@ -21,7 +21,7 @@ spec:
       image: gcr.io/kaniko-project/executor:v1.23.2
       workingDir: $(workspaces.source.path)
       env:
-        # ✅ วิธีเดียวที่ถูกต้องสำหรับ Kaniko v1.23.2
+        # ✅ วิธีเดียวที่ถูกต้องสำหรับ Kaniko v1.23.x
         - name: DOCKER_CONFIG
           value: /tekton/home/.docker
       args:
