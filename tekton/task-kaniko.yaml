@@ -25,6 +25,3 @@ spec:
         - --context=$(workspaces.source.path)/$(params.CONTEXT)
         - --destination=$(params.IMAGE)
         - --verbosity=info
-      env:
-        - name: DOCKER_CONFIG
-          value: /kaniko/.docker
