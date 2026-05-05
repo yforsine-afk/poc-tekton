@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: kaniko
+spec:
+  description: Build and push container image using Kaniko (Kubernetes-native)
+  params:
+    - name: IMAGE
+      type: string
+      description: Full image name with tag (quay.io/user/image:tag)
+    - name: DOCKERFILE
+      type: string
+      default: Dockerfile
+    - name: CONTEXT
+      type: string
+      default: .
+
+  workspaces:
+    - name: source
+
+  steps:
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor:v1.23.2
+      workingDir: $(workspaces.source.path)
+      args:
+        - "--dockerfile=$(params.DOCKERFILE)"
+        - "--context=$(workspaces.source.path)/$(params.CONTEXT)"
+        - "--destination=$(params.IMAGE)"
+        - "--oci-layout-path=/kaniko/oci"    # registry compatibility
+        - "--verbosity=info"
+      env:
+        - name: DOCKER_CONFIG
+          value: /kaniko/.docker
