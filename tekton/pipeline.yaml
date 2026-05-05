@@ -18,6 +18,7 @@ spec:
   tasks:
     - name: build-and-push
       taskRef:
+        apiVersion: tekton.dev/v1beta1
         name: buildah          #  ต้องเป็น key = name
         kind: ClusterTask     
       params:
