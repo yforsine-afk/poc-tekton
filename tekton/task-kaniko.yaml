@@ -20,9 +20,12 @@ spec:
     - name: build-and-push
       image: gcr.io/kaniko-project/executor:v1.23.2
       workingDir: $(workspaces.source.path)
+      env:
+        # ✅ วิธีเดียวที่ถูกต้องสำหรับ Kaniko v1.23.2
+        - name: DOCKER_CONFIG
+          value: /tekton/home/.docker
       args:
-        - --docker-config=/tekton/home/.docker
-        - --skip-push-permission-check   # ⭐ สำคัญที่สุด
+        - --skip-push-permission-check
         - --dockerfile=$(params.DOCKERFILE)
         - --context=$(workspaces.source.path)/$(params.CONTEXT)
         - --destination=$(params.IMAGE)
