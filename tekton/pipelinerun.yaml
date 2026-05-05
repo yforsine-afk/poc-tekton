@@ -5,11 +5,11 @@ metadata:
   namespace: poc-tekton
 spec:
   pipelineRef:
-    name: build-and-push-poc   # ต้องตรงกับชื่อ Pipeline
+    name: build-and-push-poc
 
   params:
     - name: IMAGE_NAME
-      value: quay.io/myorg/poc-tekton
+      value: quay.io/phatthananvst01/quaytekton
     - name: IMAGE_TAG
       value: v1.0.0
 
@@ -17,8 +17,7 @@ spec:
     - name: shared-workspace
       volumeClaimTemplate:
         spec:
-          accessModes:
-            - ReadWriteOnce
+          accessModes: ["ReadWriteOnce"]
           resources:
             requests:
               storage: 1Gi
