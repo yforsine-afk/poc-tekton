@@ -1,14 +1,6 @@
-# Dockerfile
-FROM registry.access.redhat.com/ubi9/nodejs-18-minimal
+FROM node:18-alpine
 
-# Working directory (OpenShift standard)
-WORKDIR /opt/app-root/src
-
-# Copy app source
+WORKDIR /app
 COPY app.js .
 
-# Expose app port
-EXPOSE 8080
-
-# Run application
 CMD ["node", "app.js"]
