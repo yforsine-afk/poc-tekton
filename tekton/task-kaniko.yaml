@@ -20,12 +20,10 @@ spec:
     - name: build-and-push
       image: gcr.io/kaniko-project/executor:v1.23.2
       workingDir: $(workspaces.source.path)
-      env:
-        # 🔑 บรรทัดสำคัญ
-        - name: DOCKER_CONFIG
-          value: /tekton/home/.docker
       args:
+        - --docker-config=/tekton/home/.docker   # ⭐ บังคับใช้
         - --dockerfile=$(params.DOCKERFILE)
         - --context=$(workspaces.source.path)/$(params.CONTEXT)
         - --destination=$(params.IMAGE)
         - --verbosity=info
+``
