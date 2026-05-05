@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: build-and-push-run-
+  generateName: build-and-push-run-001
   namespace: poc-tekton
 spec:
   serviceAccountName: pipeline
