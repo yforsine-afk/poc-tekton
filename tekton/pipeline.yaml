@@ -5,9 +5,9 @@ metadata:
   namespace: poc-tekton
 spec:
   params:
-    - name: IMAGE_NAME
+    - name: quay.io/phatthananvst01/quaytekton
       description: Full image name (Quay)
-      default: quay.io/myorg/poc-tekton
+      default: quay.io/phatthananvst01/quaytekton
     - name: IMAGE_TAG
       description: Image tag
       default: v1.0.0
