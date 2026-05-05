@@ -1,9 +1,10 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: build-and-push-run-001
+  generateName: build-and-push-run-
   namespace: poc-tekton
 spec:
+  serviceAccountName: pipeline
   pipelineRef:
     name: build-and-push-poc
 
@@ -11,15 +12,14 @@ spec:
     - name: IMAGE_NAME
       value: quay.io/phatthananvst01/quaytekton
     - name: IMAGE_TAG
-      value: v1.0.0
+      value: v1.0.1
 
   workspaces:
     - name: shared-workspace
       volumeClaimTemplate:
         spec:
-          accessModes: ["ReadWriteOnce"]
+          accessModes:
+            - ReadWriteOnce
           resources:
             requests:
               storage: 1Gi
-
-  serviceAccountName: pipeline-sa
