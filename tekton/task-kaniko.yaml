@@ -21,9 +21,9 @@ spec:
       image: gcr.io/kaniko-project/executor:v1.23.2
       workingDir: $(workspaces.source.path)
       args:
-        - --docker-config=/tekton/home/.docker   # ⭐ บังคับใช้
+        - --docker-config=/tekton/home/.docker
+        - --skip-push-permission-check   # ⭐ สำคัญที่สุด
         - --dockerfile=$(params.DOCKERFILE)
         - --context=$(workspaces.source.path)/$(params.CONTEXT)
         - --destination=$(params.IMAGE)
         - --verbosity=info
-``
