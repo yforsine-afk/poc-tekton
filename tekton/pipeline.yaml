@@ -6,10 +6,8 @@ metadata:
 spec:
   params:
     - name: IMAGE_NAME
-      description: Full image name (Quay)
       default: quay.io/phatthananvst01/quaytekton
     - name: IMAGE_TAG
-      description: Image tag
       default: v1.0.0
 
   workspaces:
@@ -18,9 +16,7 @@ spec:
   tasks:
     - name: build-and-push
       taskRef:
-        apiVersion: tekton.dev/v1beta1
-        name: buildah          #  ต้องเป็น key = name
-        kind: ClusterTask     
+        name: buildah        # ✅ Task ธรรมดา
       params:
         - name: IMAGE
           value: $(params.IMAGE_NAME):$(params.IMAGE_TAG)
