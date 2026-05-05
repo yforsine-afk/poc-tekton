@@ -5,6 +5,12 @@ metadata:
   namespace: poc-tekton
 spec:
   params:
+    - name: GIT_URL
+      type: string
+      default: https://github.com/yforsine-afk/poc-tekton.git
+    - name: GIT_REVISION
+      type: string
+      default: main
     - name: IMAGE_NAME
       type: string
       default: quay.io/phatthananvst01/quaytekton
@@ -16,9 +22,24 @@ spec:
     - name: shared-workspace
 
   tasks:
-    - name: build-and-push
+    # STEP 1: clone source code
+    - name: clone-repo
       taskRef:
-        name: buildah-rootless   # ✅ ใช้ task ใหม่
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.GIT_URL)
+        - name: revision
+          value: $(params.GIT_REVISION)
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+
+    #  STEP 2: build & push image
+    - name: build-and-push
+      runAfter: [clone-repo]
+      taskRef:
+        name: buildah-rootless
       params:
         - name: IMAGE
           value: $(params.IMAGE_NAME):$(params.IMAGE_TAG)
