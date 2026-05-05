@@ -1,5 +1,5 @@
 # Dockerfile
-FROM registry.access.redhat.com/ubi9/nodejs-18
+FROM registry.access.redhat.com/ubi9/nodejs-18-minimal
 
 # Working directory (OpenShift standard)
 WORKDIR /opt/app-root/src
