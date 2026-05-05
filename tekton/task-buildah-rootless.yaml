@@ -1,0 +1,52 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: buildah-rootless
+spec:
+  description: >
+    Build & push container image using Buildah in rootless mode
+    (no privileged, compatible with restricted SCC)
+  params:
+    - name: IMAGE
+      type: string
+      description: Image name with tag (e.g. quay.io/user/app:tag)
+    - name: CONTEXT
+      type: string
+      default: .
+    - name: TLSVERIFY
+      type: string
+      default: "false"
+
+  workspaces:
+    - name: source
+
+  steps:
+    - name: build-and-push
+      image: quay.io/buildah/stable:latest
+      workingDir: $(workspaces.source.path)
+      securityContext:
+        runAsUser: 1000        # rootless
+        runAsGroup: 1000
+        allowPrivilegeEscalation: false
+      env:
+        - name: BUILDAH_ISOLATION
+          value: chroot        # สำคัญมากสำหรับ rootless บน OpenShift
+        - name: XDG_RUNTIME_DIR
+          value: /tmp
+      script: |
+        echo "👉 Building image $(params.IMAGE)"
+        buildah --version
+
+        buildah bud \
+          --storage-driver=vfs \
+          --tls-verify=$(params.TLSVERIFY) \
+          -f Dockerfile \
+          -t $(params.IMAGE) \
+          $(params.CONTEXT)
+
+        echo "👉 Pushing image $(params.IMAGE)"
+        buildah push \
+          --storage-driver=vfs \
+          --tls-verify=$(params.TLSVERIFY) \
+          $(params.IMAGE) \
+          docker://$(params.IMAGE)
