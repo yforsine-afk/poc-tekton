@@ -6,8 +6,10 @@ metadata:
 spec:
   params:
     - name: IMAGE_NAME
+      type: string
       default: quay.io/phatthananvst01/quaytekton
     - name: IMAGE_TAG
+      type: string
       default: v1.0.0
 
   workspaces:
@@ -16,7 +18,7 @@ spec:
   tasks:
     - name: build-and-push
       taskRef:
-        name: buildah        # ✅ Task ธรรมดา
+        name: buildah-rootless   # ✅ ใช้ task ใหม่
       params:
         - name: IMAGE
           value: $(params.IMAGE_NAME):$(params.IMAGE_TAG)
