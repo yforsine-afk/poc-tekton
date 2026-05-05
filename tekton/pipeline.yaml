@@ -22,7 +22,7 @@ spec:
     - name: shared-workspace
 
   tasks:
-    # STEP 1: clone source code
+    # STEP 1: clone source code 
     - name: clone-repo
       taskRef:
         name: git-clone
@@ -35,14 +35,15 @@ spec:
         - name: output
           workspace: shared-workspace
 
-    #  STEP 2: build & push image
+    # STEP 2: build & push image ด้วย Kaniko 
     - name: build-and-push
-      runAfter: [clone-repo]
+      runAfter:
+        - clone-repo
+      taskRef:                 # เพิ่มตรงนี้
+        name: kaniko            # ต้องตรงกับ `oc get task`
       params:
         - name: IMAGE
           value: $(params.IMAGE_NAME):$(params.IMAGE_TAG)
-        - name: TLSVERIFY
-          value: "false"
       workspaces:
         - name: source
           workspace: shared-workspace
