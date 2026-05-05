@@ -31,6 +31,8 @@ spec:
       env:
         - name: BUILDAH_ISOLATION
           value: chroot        # สำคัญมากสำหรับ rootless บน OpenShift
+        - name: BUILDAH_USERNS
+          value: host
         - name: XDG_RUNTIME_DIR
           value: /tmp
       script: |
