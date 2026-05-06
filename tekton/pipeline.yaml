@@ -11,18 +11,15 @@ spec:
     - name: GIT_REVISION
       type: string
       default: main
-    - name: IMAGE_NAME
+    - name: IMAGE
       type: string
-      default: quay.io/phatthananvst01/quaytekton
-    - name: IMAGE_TAG
-      type: string
-      default: v1.0.0
 
   workspaces:
     - name: shared-workspace
 
   tasks:
-    # STEP 1: clone source code 
+
+    # ✅ STEP 1: Git Clone
     - name: clone-repo
       taskRef:
         name: git-clone
@@ -35,15 +32,15 @@ spec:
         - name: output
           workspace: shared-workspace
 
-    # STEP 2: build & push image ด้วย Kaniko 
+    # ✅ STEP 2: Build & Push (Kaniko)
     - name: build-and-push
       runAfter:
         - clone-repo
-      taskRef:                 # เพิ่มตรงนี้
-        name: kaniko            # ต้องตรงกับ `oc get task`
+      taskRef:
+        name: kaniko
       params:
         - name: IMAGE
-          value: $(params.IMAGE_NAME):$(params.IMAGE_TAG)
+          value: $(params.IMAGE)
       workspaces:
         - name: source
           workspace: shared-workspace
