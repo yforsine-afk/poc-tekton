@@ -10,9 +10,7 @@ spec:
 
   params:
     - name: IMAGE_NAME
-      value: quay.io/phatthananvst01/quaytekton
-    - name: IMAGE_TAG
-      value: v1.0.2
+      value: quay.io/phatthananvst01/quaytekton:v1.0.2
 
 
   workspaces:
