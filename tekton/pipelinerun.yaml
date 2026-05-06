@@ -1,17 +1,17 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: build-and-push-run-001
+  generateName: build-and-push-run-
   namespace: poc-tekton
 spec:
   serviceAccountName: pipeline
+
   pipelineRef:
     name: build-and-push-poc
 
   params:
-    - name: IMAGE_NAME
+    - name: IMAGE
       value: quay.io/phatthananvst01/quaytekton:v1.0.2
-
 
   workspaces:
     - name: shared-workspace
