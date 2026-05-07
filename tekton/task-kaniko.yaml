@@ -28,7 +28,7 @@ spec:
           mountPath: /tekton/home/.docker
       args:
         - --dockerfile=$(params.DOCKERFILE)
-        - --context=$(params.CONTEXT)
+        - --context=$(workspaces.shared-workspace.path)
         - --destination=$(params.IMAGE)
         - --verbosity=info
         - --skip-push-permission-check
